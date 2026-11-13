@@ -1,0 +1,104 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+vocab entries: 50,257   token style: bytelevel
+============================================================================
+RULE-ORBIT VOCABULARY REPORT
+============================================================================
+vocab size                         : 50,257
+decomposable word-like tokens      : 46,812
+candidate pairs mined              : 151,463
+  after rule-support filter (>= 8): 128,964
+  embedding gate (gpt2): cos >= 0.45 (set by --emb-theta); judged 128,964, consistency testable for 63,390
+  pairs accepted by gates          : 27,609   (unjudged: 0 -> reject)
+base tokens (roots)                : 33,625
+variants folded into an orbit      : 16,632  (33.1% of vocab)
+  space/case-only rules            : 9,562 (19.0% of vocab)   <- riskiest family
+  suffix-edit rules                : 7,070 (14.1% of vocab)
+distinct rule tags                 : 145 composite, or 142 factored (3 space + 4 case + 135 suffix-edit)
+
+embedding rows x d_model=4096 (per table: input embedding or output head)
+  flat vocab                       : 205.9 M params
+  ROV composite tags               : 138.3 M (32.8% smaller)
+  ROV factored tags                : 138.3 M (32.8% smaller)
+lossless check                     : every one of the 16,632 variants rebuilds from (base, tag) exactly; text round-trip (50,473 tokens, same length): OK
+
+TOP RULES   pairs  mean-cos  mean-offset  example base -> variant
+   3,859   0.60      0.30     [Cap]            ' the'->' The', ' this'->' This', ' and'->' And'
+   2,915   0.60      0.36     [-space]         ' and'->'and', ' int'->'int', ' man'->'man'
+   2,278   0.66      0.39     [+s]             'ation'->'ations', ' year'->' years', 'ment'->'ments'
+   1,211   0.53      0.47     [-space|Cap]     ' the'->'The', ' this'->'This', ' but'->'But'
+     623   0.57      0.20     [lower]          ' Mar'->' mar', ' House'->' house', ' However'->' however'
+     509   0.63      0.28     [-1]             'ivers'->'iver', ' things'->' thing', ' players'->' player'
+     487   0.56      0.42     [+ed]            ' call'->' called', ' start'->' started', ' report'->' reported'
+     476   0.57      0.44     [+ing]           ' work'->' working', ' look'->' looking', ' build'->' building'
+     431   0.51      0.42     [UPPER]          'ing'->'ING', 'ion'->'ION', ' the'->' THE'
+     248   0.57      0.41     [-1+ing]         'ains'->'aining', ' make'->' making', ' have'->' having'
+     240   0.55      0.44     [-2+ing]         'itted'->'itting', 'ished'->'ishing', ' added'->' adding'
+     225   0.54      0.42     [+ly]            ' real'->' really', 'ical'->'ically', ' recent'->' recently'
+     214   0.57      0.42     [+d]             ' require'->' required', ' release'->' released', ' create'->' created'
+     210   0.51      0.33     [-space|lower]   ' Cont'->'cont', ' Spe'->'spe', ' Ste'->'ste'
+     187   0.55      0.22     [+space]         'all'->' all', 'out'->' out', 'one'->' one'
+     177   0.55      0.37     [-3+ed]          'ending'->'ended', 'ication'->'icated', 'ination'->'inated'
+     155   0.55      0.19     [-2]             'cially'->'cial', ' national'->' nation', ' actually'->' actual'
+     141   0.65      0.41     [-1+ies]         'ility'->'ilities', ' country'->' countries', ' company'->' companies'
+     103   0.56      0.46     [-1+s]           'ated'->'ates', 'ased'->'ases', 'ided'->'ides'
+     101   0.50      0.31     [+space|Cap]     'all'->' All', 'red'->' Red', 'per'->' Per'
+      94   0.57      0.21     [-3]             ' training'->' train', ' multiple'->' multi', ' construction'->' construct'
+      82   0.63      0.44     [+es]            ' business'->' businesses', ' class'->' classes', ' match'->' matches'
+      66   0.56      0.40     [+er]            ' long'->' longer', ' high'->' higher', ' small'->' smaller'
+      64   0.55      0.36     [-3+e]           ' including'->' include', ' written'->' write', 'itution'->'itute'
+      53   0.55      0.20     [+al]            ' norm'->' normal', ' illeg'->' illegal', 'ament'->'amental'
+      51   0.56      0.43     [-2+ng]          'ation'->'ating', 'ination'->'inating', 'ulation'->'ulating'
+      50   0.54      0.34     [+ion]           'ress'->'ression', 'ribut'->'ribution', ' opin'->' opinion'
+      48   0.56      0.36     [-2+s]           'eared'->'ears', ' political'->' politics', ' ended'->' ends'
+      42   0.54      0.37     [-3+s]           'ending'->'ends', ' seeing'->' sees', ' reading'->' reads'
+      39   0.52      0.30     [-1+ed]          'ains'->'ained', 'ills'->'illed', 'ocks'->'ocked'
+
+BIGGEST ORBITS
+  ' production': [-4+e]' produce', [-4+ed]' produced', [-4+ing]' producing', [-4+er]' producer', [-4+ers]' producers', [Cap]' Production', [-space]'production', [+s]' productions' (+1 more)
+  ' travel': [+ing]' traveling', [Cap]' Travel', [+ed]' traveled', [+ling]' travelling', [+s]' travels', [+led]' travelled', [+ers]' travelers', [-space|Cap]'Travel' (+1 more)
+  ' attack': [+s]' attacks', [+ed]' attacked', [Cap]' Attack', [+ing]' attacking', [+er]' attacker', [+ers]' attackers', [-space]'attack', [-space|Cap]'Attack'
+  ' design': [+ed]' designed', [Cap]' Design', [+s]' designs', [+er]' designer', [+ers]' designers', [+ing]' designing', [-space|Cap]'Design', [-space]'design'
+  ' connect': [+ion]' connection', [+ed]' connected', [Cap]' Connect', [-space]'connect', [+ions]' connections', [-space|Cap]'Connect', [+ing]' connecting', [+s]' connects'
+  ' protect': [+ion]' protection', [+ed]' protected', [+ing]' protecting', [+s]' protects', [Cap]' Protect', [-space]'protect', [+or]' protector', [-space|Cap]'Protect'
+  ' review': [Cap]' Review', [+s]' reviews', [+ed]' reviewed', [-space|Cap]'Review', [+ing]' reviewing', [-space]'review', [+ers]' reviewers', [+er]' reviewer'
+  ' investigation': [-3+e]' investigate', [-3+ors]' investigators', [-2+ng]' investigating', [+s]' investigations', [-3+ed]' investigated', [-2+ve]' investigative', [-3+or]' investigator', [Cap]' Investigation'
+  ' predict': [+ed]' predicted', [+ions]' predictions', [+ion]' prediction', [+ing]' predicting', [+s]' predicts', [+ive]' predictive', [+or]' predictor', [Cap]' Predict'
+  ' hack': [+ing]' hacking', [+ers]' hackers', [Cap]' Hack', [+ed]' hacked', [+er]' hacker', [+s]' hacks', [-space]'hack', [-space|Cap]'Hack'
+  ' call': [+ed]' called', [+s]' calls', [+ing]' calling', [Cap]' Call', [-space]'call', [-space|Cap]'Call', [UPPER]' CALL'
+  ' play': [-space]'play', [+ing]' playing', [+ed]' played', [Cap]' Play', [+s]' plays', [-space|Cap]'Play', [UPPER]' PLAY'
+  ' work': [+ing]' working', [-space]'work', [+s]' works', [+ed]' worked', [Cap]' Work', [-space|Cap]'Work', [UPPER]' WORK'
+  ' look': [+ing]' looking', [+s]' looks', [+ed]' looked', [-space]'look', [Cap]' Look', [-space|Cap]'Look', [UPPER]' LOOK'
+  ' report': [+ed]' reported', [+s]' reports', [Cap]' Report', [+ing]' reporting', [-space]'report', [-space|Cap]'Report', [UPPER]' REPORT'
+
+AUDIT: lowest-similarity pairs ACCEPTED (look for false merges)
+  cos= 0.45  'ven' -> 'VEN'
+  cos= 0.45  'day' -> ' DAY'
+  cos= 0.45  'looking' -> ' Looking'
+  cos= 0.45  ' force' -> 'Force'
+  cos= 0.45  'sea' -> 'Sea'
+  cos= 0.45  'ice' -> 'ICE'
+  cos= 0.45  ' general' -> ' generally'
+  cos= 0.45  ' prepared' -> ' prepares'
+  cos= 0.45  'piracy' -> ' piracy'
+  cos= 0.45  ' price' -> ' priced'
+AUDIT: highest-similarity suffix pairs REJECTED (look for missed merges)
+  cos= 0.82  offset=-0.02  ' adviser' -> ' advisor'
+  cos= 0.80  offset=  n/a  ' contraception' -> ' contraceptives'
+  cos= 0.79  offset= 0.28  ' among' -> ' amongst'
+  cos= 0.78  offset= 0.40  ' freshman' -> ' freshmen'
+  cos= 0.78  offset= 0.70  ' theater' -> ' theatre'
+  cos= 0.77  offset=  n/a  ' fishermen' -> ' fisherman'
+  cos= 0.77  offset= 0.39  ' lineman' -> ' linemen'
+  cos= 0.77  offset=  n/a  ' optimal' -> ' optimum'
+  cos= 0.77  offset=  n/a  ' horrific' -> ' horrifying'
+  cos= 0.76  offset= 0.50  ' policeman' -> ' policemen'
+AUDIT: lowest rule-consistency pairs ACCEPTED
+  offset=-0.29  ' glimpse' -> ' glimps'
+  offset=-0.24  ' interpret' -> ' interpre'
+  offset=-0.23  ' lobby' -> ' lobb'
+  offset=-0.23  ' hypocr' -> ' hypoc'
+  offset=-0.23  ' sent' -> ' send'
+  offset=-0.21  ' spent' -> ' spend'
+  offset=-0.20  ' teenager' -> ' teenage'
+  offset=-0.20  ' boycott' -> ' boycot'
+wrote gpt2_045\map_all.npz  (16,632 variants, 145 tags incl. identity)

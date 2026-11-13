@@ -1,0 +1,46 @@
+device cuda | train blocks 222,493 x 96 tokens | val blocks 2,000 | vocab 50,257 -> 44,165 bases + 3 tags (12.1% folded)
+
+== flat: 51.00M params (25.73M in embedding/head), d_ff=2048
+  step  1000  train 7.823  val 8.388 bits/token  (240s)
+  step  2000  train 7.778  val 7.927 bits/token  (500s)
+  step  3000  train 7.886  val 7.729 bits/token  (759s)
+  step  4000  train 7.141  val 7.494 bits/token  (1019s)
+  step  5000  train 7.295  val 7.328 bits/token  (1279s)
+  step  6000  train 7.249  val 7.192 bits/token  (1539s)
+  step  7000  train 7.012  val 7.018 bits/token  (1798s)
+  step  8000  train 6.987  val 6.939 bits/token  (2058s)
+  step  9000  train 6.833  val 6.859 bits/token  (2317s)
+  step 10000  train 7.024  val 6.786 bits/token  (2577s)
+
+== rov-matched: 51.04M params (22.62M in embedding/head), d_ff=2432
+  step  1000  train 7.803  val 8.370 bits/token  (270s)
+  step  2000  train 7.746  val 7.925 bits/token  (541s)
+  step  3000  train 7.823  val 7.711 bits/token  (811s)
+  step  4000  train 7.159  val 7.462 bits/token  (1082s)
+  step  5000  train 7.251  val 7.294 bits/token  (1352s)
+  step  6000  train 7.210  val 7.108 bits/token  (1622s)
+  step  7000  train 6.966  val 6.959 bits/token  (1892s)
+  step  8000  train 6.919  val 6.870 bits/token  (2163s)
+  step  9000  train 6.804  val 6.797 bits/token  (2433s)
+  step 10000  train 7.003  val 6.722 bits/token  (2703s)
+
+==============================================================================
+RESULTS  (192,000 validation tokens; bytes/token = 4.59; rare = <100 train occurrences)
+==============================================================================
+                                    flat       rov-matched
+total params                      51.00M            51.04M
+embedding+head params             25.73M            22.62M
+train time (s)                      2585              2711
+all tokens (n=192,000)             6.853             6.814   bits/token
+variant tokens (n=9,504)            10.108             9.704   bits/token
+rare variants (n=1,065)            17.511            15.614   bits/token
+root tokens (n=182,496)             6.684             6.664   bits/token
+rare roots (n=7,687)              17.316            17.184   bits/token
+bits per byte                     1.4924            1.4839
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov-matched  all tokens       -0.0388 +/- 0.0058   better
+  rov-matched  variant tokens   -0.4045 +/- 0.0439   better
+  rov-matched  rare variants    -1.8962 +/- 0.1687   better
+  rov-matched  root tokens      -0.0197 +/- 0.0056   better
+  rov-matched  rare roots       -0.1322 +/- 0.0306   better

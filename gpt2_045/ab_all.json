@@ -1,0 +1,68 @@
+{
+ "runs": [
+  {
+   "name": "flat",
+   "params": 6841984,
+   "emb_params": 6432896,
+   "curve": [],
+   "seconds": 474.282107591629,
+   "d_ff": 512,
+   "bits_per_token": 7.471690654754639
+  },
+  {
+   "name": "rov",
+   "params": 4768913,
+   "emb_params": 4359825,
+   "curve": [
+    [
+     250,
+     7.514466762542725
+    ],
+    [
+     500,
+     7.107041835784912
+    ]
+   ],
+   "seconds": 313.36999917030334,
+   "d_ff": 512,
+   "bits_per_token": 7.364730358123779
+  }
+ ],
+ "paired_vs_flat": {
+  "rov": {
+   "all tokens": {
+    "diff": -0.10695961117744446,
+    "ci": 0.009913137182593346,
+    "n": 38400,
+    "verdict": "better"
+   },
+   "variant tokens": {
+    "diff": -0.2467164546251297,
+    "ci": 0.04950065538287163,
+    "n": 4791,
+    "verdict": "better"
+   },
+   "rare variants": {
+    "diff": -1.6935553550720215,
+    "ci": 0.17883722484111786,
+    "n": 842,
+    "verdict": "better"
+   },
+   "root tokens": {
+    "diff": -0.0870371162891388,
+    "ci": 0.008839020505547523,
+    "n": 33609,
+    "verdict": "better"
+   },
+   "rare roots": {
+    "diff": -0.016857873648405075,
+    "ci": 0.07619259506464005,
+    "n": 1340,
+    "verdict": "no clear difference"
+   }
+  }
+ },
+ "folded_fraction": 0.3309389736753089,
+ "bases": 33625,
+ "tags": 145
+}

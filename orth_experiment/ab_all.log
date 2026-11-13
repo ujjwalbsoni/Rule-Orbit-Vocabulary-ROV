@@ -1,0 +1,26 @@
+device cpu | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 33,625 bases + 145 tags (33.1% folded)
+
+== flat: loaded finished run from orth_experiment\ck_all.flat.npz
+
+== rov: loaded finished run from orth_experiment\ck_all.rov.npz
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov
+total params                       6.84M             3.76M
+embedding+head params              6.43M             3.35M
+train time (s)                      1462              1107
+all tokens (n=38,400)              6.984             6.949   bits/token
+variant tokens (n=4,791)            10.356            10.155   bits/token
+rare variants (n=842)             17.300            16.052   bits/token
+root tokens (n=33,609)             6.504             6.492   bits/token
+rare roots (n=1,340)              17.009            16.775   bits/token
+bits per byte                     1.8628            1.8533
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.0354 +/- 0.0129   better
+  rov          variant tokens   -0.2010 +/- 0.0503   better
+  rov          rare variants    -1.2487 +/- 0.1885   better
+  rov          root tokens      -0.0117 +/- 0.0129   no clear difference
+  rov          rare roots       -0.2343 +/- 0.1308   better

@@ -1,0 +1,28 @@
+device cpu | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 33,625 bases + 145 tags (33.1% folded)
+
+== flat: loaded finished run from gpt2_045\ck_all.flat.npz
+
+== rov: 4.77M params (4.36M in embedding/head), d_ff=512
+  step   250  train 7.293  val 7.514 bits/token  (153s)
+  step   500  train 7.382  val 7.107 bits/token  (310s)
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov
+total params                       6.84M             4.77M
+embedding+head params              6.43M             4.36M
+train time (s)                       474               313
+all tokens (n=38,400)              7.472             7.365   bits/token
+variant tokens (n=4,791)            10.931            10.685   bits/token
+rare variants (n=842)             18.074            16.381   bits/token
+root tokens (n=33,609)             6.978             6.891   bits/token
+rare roots (n=1,340)              17.717            17.701   bits/token
+bits per byte                     1.9928            1.9642
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.1070 +/- 0.0099   better
+  rov          variant tokens   -0.2467 +/- 0.0495   better
+  rov          rare variants    -1.6936 +/- 0.1788   better
+  rov          root tokens      -0.0870 +/- 0.0088   better
+  rov          rare roots       -0.0169 +/- 0.0762   no clear difference

@@ -1,0 +1,134 @@
+device cuda | text: 10.9 MB train, 0.80 MB held out | vocab 44,165: 2,612 mapped tokens -> 41,553 rows | plain/casemarker vocab 41,553
+
+######## flat
+
+== flat: 47.88M params (22.61M in embedding/head), d_ff=2048
+  step   500  train 6.957  val 7.415 bits/token  (111s)
+  step  1000  train 6.560  val 7.012 bits/token  (245s)
+  step  1500  train 6.203  val 6.748 bits/token  (378s)
+  step  2000  train 6.174  val 6.653 bits/token  (511s)
+
+######## rov
+
+== rov: 46.55M params (21.28M in embedding/head), d_ff=2048
+  step   500  train 6.969  val 7.378 bits/token  (130s)
+  step  1000  train 6.513  val 7.012 bits/token  (259s)
+  step  1500  train 6.182  val 6.736 bits/token  (389s)
+  step  2000  train 6.134  val 6.634 bits/token  (519s)
+
+######## prune
+
+== flat: 46.54M params (21.28M in embedding/head), d_ff=2048
+  step   500  train 7.242  val 7.345 bits/token  (129s)
+  step  1000  train 6.342  val 6.940 bits/token  (258s)
+  step  1500  train 6.468  val 6.700 bits/token  (387s)
+  step  2000  train 5.909  val 6.614 bits/token  (516s)
+
+######## plain
+
+== flat: 46.54M params (21.28M in embedding/head), d_ff=2048
+  step   500  train 6.997  val 7.347 bits/token  (129s)
+  step  1000  train 6.642  val 7.008 bits/token  (258s)
+  step  1500  train 6.293  val 6.773 bits/token  (387s)
+  step  2000  train 5.953  val 6.672 bits/token  (516s)
+
+######## casemarker
+   case-marker round trip on 300 held-out lines: OK
+
+== flat: 46.54M params (21.28M in embedding/head), d_ff=2048
+  step   500  train 6.701  val 6.972 bits/token  (130s)
+  step  1000  train 6.011  val 6.621 bits/token  (259s)
+  step  1500  train 6.075  val 6.366 bits/token  (388s)
+  step  2000  train 5.590  val 6.279 bits/token  (518s)
+
+====================================================================================================
+RESULTS  (held-out text 0.80 MB; 2000 steps x 24 x 96 tokens; seed 0)
+====================================================================================================
+scheme       vocab size  emb+head   params bytes/token train MB seen  bits/token     bits/BYTE   vs flat
+flat             44,165    22.61M   47.88M        4.03          18.6       6.827   1.6718 ±0.0067          
+rov              44,165    21.28M   46.55M        4.03          18.6       6.819   1.6698 ±0.0067   -0.0020
+prune            41,553    21.28M   46.54M        3.98          18.4       6.733   1.6692 ±0.0067   -0.0026
+plain            41,553    21.28M   46.54M        4.03          18.6       6.835   1.6764 ±0.0067   +0.0046
+casemarker       41,553    21.28M   46.54M        3.72          17.1       6.247   1.6572 ±0.0061   -0.0146
+
+(± = bootstrap standard error over held-out windows, per scheme alone. The comparisons below are PAIRED over equal byte-range buckets of the same text, so their CIs are much tighter than these.)
+
+the comparisons that matter (negative = first is better):
+  rov         minus prune      +0.0006  95% CI [-0.0020, +0.0033] bits/byte   no clear difference   (same tokenizer, same number of embedding rows)   [100 paired buckets]
+  rov         minus flat       -0.0020  95% CI [-0.0030, -0.0009] bits/byte   rov better   (the folded model vs the unmodified vocabulary)   [100 paired buckets]
+  casemarker  minus plain      -0.0192  95% CI [-0.0245, -0.0143] bits/byte   casemarker better   (marker idea vs a freshly trained vocabulary of the same size)   [100 paired buckets]
+  prune       minus flat       -0.0026  95% CI [-0.0056, +0.0001] bits/byte   no clear difference   (what plain pruning costs)   [100 paired buckets]
+  rov         minus plain      -0.0066  95% CI [-0.0092, -0.0037] bits/byte   rov better   (folding vs a freshly trained vocabulary of ~the same size)   [100 paired buckets]
+  rov         minus casemarker +0.0126  95% CI [+0.0086, +0.0172] bits/byte   casemarker better   (folding vs the case-marker scheme)   [100 paired buckets]
+
+saved /kaggle/working/rov/bl_indomain_A/summary.json
+
+
+************************************************************
+
+device cuda | text: 10.9 MB train, 0.80 MB held out | vocab 44,165: 4,476 mapped tokens -> 39,689 rows | plain/casemarker vocab 39,689
+
+######## flat
+
+== flat: 47.88M params (22.61M in embedding/head), d_ff=2048
+  step   500  train 6.964  val 7.411 bits/token  (127s)
+  step  1000  train 6.550  val 7.020 bits/token  (260s)
+  step  1500  train 6.191  val 6.747 bits/token  (393s)
+  step  2000  train 6.151  val 6.662 bits/token  (526s)
+
+######## rov
+
+== rov: 45.59M params (20.33M in embedding/head), d_ff=2048
+  step   500  train 6.939  val 7.375 bits/token  (127s)
+  step  1000  train 6.490  val 6.992 bits/token  (255s)
+  step  1500  train 6.170  val 6.721 bits/token  (383s)
+  step  2000  train 6.122  val 6.641 bits/token  (511s)
+
+######## prune
+
+== flat: 45.59M params (20.32M in embedding/head), d_ff=2048
+  step   500  train 7.058  val 7.304 bits/token  (127s)
+  step  1000  train 6.258  val 6.880 bits/token  (254s)
+  step  1500  train 6.544  val 6.663 bits/token  (381s)
+  step  2000  train 5.815  val 6.572 bits/token  (508s)
+
+######## plain
+
+== flat: 45.59M params (20.32M in embedding/head), d_ff=2048
+  step   500  train 7.232  val 7.448 bits/token  (127s)
+  step  1000  train 6.384  val 7.027 bits/token  (253s)
+  step  1500  train 6.593  val 6.756 bits/token  (380s)
+  step  2000  train 5.979  val 6.675 bits/token  (507s)
+
+######## casemarker
+   case-marker round trip on 300 held-out lines: OK
+
+== flat: 45.59M params (20.32M in embedding/head), d_ff=2048
+  step   500  train 6.821  val 6.995 bits/token  (127s)
+  step  1000  train 5.791  val 6.651 bits/token  (254s)
+  step  1500  train 6.049  val 6.385 bits/token  (380s)
+  step  2000  train 5.731  val 6.304 bits/token  (507s)
+
+====================================================================================================
+RESULTS  (held-out text 0.80 MB; 2000 steps x 24 x 96 tokens; seed 0)
+====================================================================================================
+scheme       vocab size  emb+head   params bytes/token train MB seen  bits/token     bits/BYTE   vs flat
+flat             44,165    22.61M   47.88M        4.03          18.6       6.823   1.6708 ±0.0067          
+rov              44,165    20.33M   45.59M        4.03          18.6       6.787   1.6620 ±0.0067   -0.0088
+prune            39,689    20.32M   45.59M        3.89          17.9       6.606   1.6770 ±0.0068   +0.0061
+plain            39,689    20.32M   45.59M        4.02          18.5       6.817   1.6739 ±0.0063   +0.0031
+casemarker       39,689    20.32M   45.59M        3.71          17.1       6.261   1.6630 ±0.0060   -0.0079
+
+(± = bootstrap standard error over held-out windows, per scheme alone. The comparisons below are PAIRED over equal byte-range buckets of the same text, so their CIs are much tighter than these.)
+
+the comparisons that matter (negative = first is better):
+  rov         minus prune      -0.0149  95% CI [-0.0193, -0.0109] bits/byte   rov better   (same tokenizer, same number of embedding rows)   [100 paired buckets]
+  rov         minus flat       -0.0088  95% CI [-0.0104, -0.0071] bits/byte   rov better   (the folded model vs the unmodified vocabulary)   [100 paired buckets]
+  casemarker  minus plain      -0.0110  95% CI [-0.0152, -0.0070] bits/byte   casemarker better   (marker idea vs a freshly trained vocabulary of the same size)   [100 paired buckets]
+  prune       minus flat       +0.0061  95% CI [+0.0024, +0.0100] bits/byte   flat better   (what plain pruning costs)   [100 paired buckets]
+  rov         minus plain      -0.0119  95% CI [-0.0153, -0.0088] bits/byte   rov better   (folding vs a freshly trained vocabulary of ~the same size)   [100 paired buckets]
+  rov         minus casemarker -0.0010  95% CI [-0.0040, +0.0026] bits/byte   no clear difference   (folding vs the case-marker scheme)   [100 paired buckets]
+
+saved /kaggle/working/rov/bl_indomain_C/summary.json
+
+

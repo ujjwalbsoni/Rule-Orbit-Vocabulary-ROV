@@ -1,0 +1,104 @@
+vocab entries: 50,257   token style: bytelevel
+============================================================================
+RULE-ORBIT VOCABULARY REPORT
+============================================================================
+vocab size                         : 50,257
+decomposable word-like tokens      : 46,812
+candidate pairs mined              : 151,463
+  after rule-support filter (>= 8): 103,873
+  embedding gate (gpt2): cos >= 0.45 (set by --emb-theta), offset-consistency >= 0.04 unless cos >= 0.23; judged 103,873, consistency testable for 39,013
+  pairs accepted by gates          : 11,181   (unjudged: 0 -> reject)
+base tokens (roots)                : 42,702
+variants folded into an orbit      : 7,555  (15.0% of vocab)
+  space/case-only rules            : 0 (0.0% of vocab)   <- riskiest family
+  suffix-edit rules                : 7,555 (15.0% of vocab)
+distinct rule tags                 : 135 composite, or 137 factored (1 space + 1 case + 135 suffix-edit)
+
+embedding rows x d_model=4096 (per table: input embedding or output head)
+  flat vocab                       : 205.9 M params
+  ROV composite tags               : 175.5 M (14.8% smaller)
+  ROV factored tags                : 175.5 M (14.8% smaller)
+lossless check                     : every one of the 7,555 variants rebuilds from (base, tag) exactly; text round-trip (50,473 tokens, same length): OK
+
+TOP RULES   pairs  mean-cos  mean-offset  example base -> variant
+   2,566   0.66      0.39     [+s]             'ation'->'ations', ' year'->' years', 'ment'->'ments'
+     543   0.63      0.28     [-1]             'ivers'->'iver', ' things'->' thing', ' players'->' player'
+     519   0.56      0.41     [+ed]            ' call'->' called', ' start'->' started', ' report'->' reported'
+     508   0.57      0.43     [+ing]           ' work'->' working', ' look'->' looking', ' build'->' building'
+     248   0.57      0.41     [-1+ing]         'ains'->'aining', ' make'->' making', ' have'->' having'
+     236   0.55      0.44     [-2+ing]         'itted'->'itting', 'ished'->'ishing', ' added'->' adding'
+     229   0.54      0.42     [+ly]            ' real'->' really', 'ical'->'ically', ' recent'->' recently'
+     225   0.57      0.41     [+d]             ' require'->' required', ' release'->' released', ' create'->' created'
+     176   0.55      0.37     [-3+ed]          'ending'->'ended', 'ication'->'icated', 'ination'->'inated'
+     161   0.55      0.18     [-2]             'cially'->'cial', ' national'->' nation', ' actually'->' actual'
+     151   0.65      0.42     [-1+ies]         'ility'->'ilities', ' country'->' countries', ' company'->' companies'
+     103   0.56      0.46     [-1+s]           'ated'->'ates', 'ased'->'ases', 'ided'->'ides'
+      97   0.56      0.21     [-3]             ' training'->' train', ' multiple'->' multi', ' construction'->' construct'
+      89   0.63      0.43     [+es]            ' business'->' businesses', ' class'->' classes', ' match'->' matches'
+      70   0.56      0.40     [+er]            ' long'->' longer', ' high'->' higher', ' small'->' smaller'
+      63   0.55      0.36     [-3+e]           ' including'->' include', ' written'->' write', 'itution'->'itute'
+      53   0.53      0.34     [+ion]           'ress'->'ression', 'ribut'->'ribution', ' opin'->' opinion'
+      53   0.55      0.20     [+al]            ' norm'->' normal', ' illeg'->' illegal', 'ament'->'amental'
+      51   0.56      0.43     [-2+ng]          'ation'->'ating', 'ination'->'inating', 'ulation'->'ulating'
+      47   0.56      0.36     [-2+s]           'eared'->'ears', ' political'->' politics', ' ended'->' ends'
+      39   0.55      0.41     [+ment]          ' develop'->' development', ' treat'->' treatment', ' invest'->' investment'
+      39   0.57      0.36     [+ate]           ' appreci'->' appreciate', ' passion'->' passionate', ' accommod'->' accommodate'
+      36   0.53      0.30     [-1+ed]          'ains'->'ained', 'ills'->'illed', 'ocks'->'ocked'
+      36   0.54      0.36     [-3+s]           'ending'->'ends', ' seeing'->' sees', ' genetic'->' genes'
+      36   0.54      0.16     [+y]             ' full'->' fully', 'ateg'->'ategy', 'ograph'->'ography'
+      36   0.62      0.27     [-3+y]           ' authorities'->' authority', ' identified'->' identify', ' denied'->' deny'
+      33   0.55      0.24     [+ic]            'ograph'->'ographic', 'ogen'->'ogenic', ' authent'->' authentic'
+      32   0.53      0.31     [-1+y]           'able'->'ably', 'ible'->'ibly', 'ience'->'iency'
+      31   0.53      0.24     [-1+d]           'ines'->'ined', 'ures'->'ured', 'ives'->'ived'
+      31   0.53      0.40     [-2+ion]         ' confused'->' confusion', ' integrated'->' integration', ' adopted'->' adoption'
+
+BIGGEST ORBITS
+  ' investigation': [-3+e]' investigate', [-3+ors]' investigators', [-2+ng]' investigating', [+s]' investigations', [-3+ed]' investigated', [-2+ve]' investigative', [-3+or]' investigator'
+  ' predict': [+ed]' predicted', [+ions]' predictions', [+ion]' prediction', [+ing]' predicting', [+s]' predicts', [+ive]' predictive', [+or]' predictor'
+  'ication': [-3+ed]'icated', [+s]'ications', [-3+e]'icate', [-2+ng]'icating', [-3+es]'icates', [-3+or]'icator'
+  ' production': [-4+e]' produce', [-4+ed]' produced', [-4+ing]' producing', [-4+er]' producer', [-4+ers]' producers', [+s]' productions'
+  'ulation': [-3+ed]'ulated', [-3+e]'ulate', [+s]'ulations', [-2+ng]'ulating', [-3+or]'ulator', [-3+es]'ulates'
+  'ograph': [+y]'ography', [+ic]'ographic', [-1]'ograp', [+er]'ographer', [+s]'ographs', [+ed]'ographed'
+  ' restrict': [+ions]' restrictions', [+ed]' restricted', [+ion]' restriction', [+ive]' restrictive', [+ing]' restricting', [+s]' restricts'
+  ' photograph': [-1]' photograp', [+s]' photographs', [+y]' photography', [+er]' photographer', [+ed]' photographed', [+ic]' photographic'
+  ' travel': [+ing]' traveling', [+ed]' traveled', [+ling]' travelling', [+s]' travels', [+led]' travelled', [+ers]' travelers'
+  'ology': [-1+ical]'ological', [-1+ies]'ologies', [-1+ist]'ologist', [-1+ists]'ologists', [-1+ic]'ologic'
+  ' attack': [+s]' attacks', [+ed]' attacked', [+ing]' attacking', [+er]' attacker', [+ers]' attackers'
+  ' design': [+ed]' designed', [+s]' designs', [+er]' designer', [+ers]' designers', [+ing]' designing'
+  'ination': [-3+ed]'inated', [-3+e]'inate', [-2+ng]'inating', [+s]'inations', [-3+es]'inates'
+  ' connect': [+ion]' connection', [+ed]' connected', [+ions]' connections', [+ing]' connecting', [+s]' connects'
+  ' protect': [+ion]' protection', [+ed]' protected', [+ing]' protecting', [+s]' protects', [+or]' protector'
+
+AUDIT: lowest-similarity pairs ACCEPTED (look for false merges)
+  cos= 0.45  ' general' -> ' generally'
+  cos= 0.45  ' prepared' -> ' prepares'
+  cos= 0.45  ' price' -> ' priced'
+  cos= 0.45  'olphins' -> 'olphin'
+  cos= 0.45  ' education' -> ' educator'
+  cos= 0.45  'outs' -> 'outed'
+  cos= 0.45  'list' -> 'listed'
+  cos= 0.45  ' troubled' -> ' troubling'
+  cos= 0.45  ' relevant' -> ' relevance'
+  cos= 0.45  ' contact' -> ' contacted'
+AUDIT: highest-similarity suffix pairs REJECTED (look for missed merges)
+  cos= 0.82  offset=-0.02  ' adviser' -> ' advisor'
+  cos= 0.80  offset=  n/a  ' contraception' -> ' contraceptives'
+  cos= 0.79  offset= 0.28  ' among' -> ' amongst'
+  cos= 0.78  offset= 0.40  ' freshman' -> ' freshmen'
+  cos= 0.78  offset= 0.70  ' theater' -> ' theatre'
+  cos= 0.77  offset=  n/a  ' fishermen' -> ' fisherman'
+  cos= 0.77  offset= 0.39  ' lineman' -> ' linemen'
+  cos= 0.77  offset=  n/a  ' optimal' -> ' optimum'
+  cos= 0.77  offset=  n/a  ' horrific' -> ' horrifying'
+  cos= 0.76  offset= 0.50  ' policeman' -> ' policemen'
+AUDIT: lowest rule-consistency pairs ACCEPTED
+  offset=-0.29  ' glimpse' -> ' glimps'
+  offset=-0.24  ' interpret' -> ' interpre'
+  offset=-0.23  ' lobby' -> ' lobb'
+  offset=-0.23  ' hypocr' -> ' hypoc'
+  offset=-0.23  ' sent' -> ' send'
+  offset=-0.21  ' spent' -> ' spend'
+  offset=-0.20  ' teenager' -> ' teenage'
+  offset=-0.20  ' boycott' -> ' boycot'
+warning: overwriting existing orth_experiment\map_suffix.npz
+wrote orth_experiment\map_suffix.npz  (7,555 variants, 135 tags incl. identity)

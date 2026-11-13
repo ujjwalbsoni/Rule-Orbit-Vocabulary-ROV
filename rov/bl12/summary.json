@@ -1,0 +1,67 @@
+{
+ "flat": {
+  "bits": null,
+  "nbytes": null,
+  "params": 51000832.0,
+  "emb": 25731584.0,
+  "seconds": 583.6234996318817,
+  "rows": 50257.0,
+  "val_tokens": 209304.0,
+  "train_tokens": 2909498.0,
+  "bytes_per_token": 3.7437980710074386,
+  "train_mb_seen": 17.251421511202278,
+  "bpb": 1.700468783354118
+ },
+ "rov": {
+  "bits": null,
+  "nbytes": null,
+  "params": 47886339.0,
+  "emb": 22617091.0,
+  "seconds": 583.8385164737701,
+  "rows": 50257.0,
+  "val_tokens": 209304.0,
+  "train_tokens": 2909498.0,
+  "bytes_per_token": 3.7437980710074386,
+  "train_mb_seen": 17.251421511202278,
+  "bpb": 1.6926997314817935
+ },
+ "prune": {
+  "bits": null,
+  "nbytes": null,
+  "params": 47881728.0,
+  "emb": 22612480.0,
+  "seconds": 503.5320658683777,
+  "rows": 44165.0,
+  "val_tokens": 215427.0,
+  "train_tokens": 3003801.0,
+  "bytes_per_token": 3.626263191203412,
+  "train_mb_seen": 16.70982078506532,
+  "bpb": 1.6982126719706823
+ },
+ "plain": {
+  "bits": null,
+  "nbytes": null,
+  "params": 47881728.0,
+  "emb": 22612480.0,
+  "seconds": 511.839937210083,
+  "rows": 44165.0,
+  "val_tokens": 196195.0,
+  "train_tokens": 2699780.0,
+  "bytes_per_token": 4.034615042707183,
+  "train_mb_seen": 18.5915061167947,
+  "bpb": 1.6709076583832163
+ },
+ "casemarker": {
+  "bits": null,
+  "nbytes": null,
+  "params": 47881728.0,
+  "emb": 22612480.0,
+  "seconds": 512.6578800678253,
+  "rows": 44165.0,
+  "val_tokens": 212240.0,
+  "train_tokens": 2925068.0,
+  "bytes_per_token": 3.723870009175855,
+  "train_mb_seen": 17.15959300228234,
+  "bpb": 1.6585422462577355
+ }
+}

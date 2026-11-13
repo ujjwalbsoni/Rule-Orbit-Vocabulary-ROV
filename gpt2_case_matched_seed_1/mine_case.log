@@ -1,0 +1,67 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+vocab entries: 50,257   token style: bytelevel
+============================================================================
+RULE-ORBIT VOCABULARY REPORT
+============================================================================
+vocab size                         : 50,257
+decomposable word-like tokens      : 46,812
+candidate pairs mined              : 151,463
+  after rule-support filter (>= 8): 10,579
+  embedding gate (gpt2): cos >= 0.45 (set by --emb-theta), offset-consistency >= 0.07; judged 10,579, consistency testable for 10,579
+  pairs accepted by gates          : 7,524   (unjudged: 0 -> reject)
+base tokens (roots)                : 43,033
+variants folded into an orbit      : 7,224  (14.4% of vocab)
+  space/case-only rules            : 7,224 (14.4% of vocab)   <- riskiest family
+  suffix-edit rules                : 0 (0.0% of vocab)
+distinct rule tags                 : 4 composite, or 6 factored (1 space + 4 case + 1 suffix-edit)
+
+embedding rows x d_model=4096 (per table: input embedding or output head)
+  flat vocab                       : 205.9 M params
+  ROV composite tags               : 176.3 M (14.4% smaller)
+  ROV factored tags                : 176.3 M (14.4% smaller)
+lossless check                     : every one of the 7,224 variants rebuilds from (base, tag) exactly; text round-trip (50,473 tokens, same length): OK
+
+TOP RULES   pairs  mean-cos  mean-offset  example base -> variant
+   5,608   0.59      0.29     [Cap]            ' the'->' The', ' this'->' This', ' and'->' And'
+   1,130   0.56      0.23     [lower]          'The'->'the', ' Mar'->' mar', ' House'->' house'
+     486   0.51      0.42     [UPPER]          'ing'->'ING', 'ion'->'ION', ' the'->' THE'
+
+BIGGEST ORBITS
+  ' the': [Cap]' The', [UPPER]' THE'
+  ' this': [Cap]' This', [UPPER]' THIS'
+  ' and': [Cap]' And', [UPPER]' AND'
+  ' you': [Cap]' You', [UPPER]' YOU'
+  ' new': [Cap]' New', [UPPER]' NEW'
+  ' for': [Cap]' For', [UPPER]' FOR'
+  ' they': [Cap]' They', [UPPER]' THEY'
+  ' how': [Cap]' How', [UPPER]' HOW'
+  ' all': [Cap]' All', [UPPER]' ALL'
+  ' Mar': [lower]' mar', [UPPER]' MAR'
+  ' state': [Cap]' State', [UPPER]' STATE'
+  ' min': [Cap]' Min', [UPPER]' MIN'
+  ' one': [Cap]' One', [UPPER]' ONE'
+  ' not': [Cap]' Not', [UPPER]' NOT'
+  ' app': [Cap]' App', [UPPER]' APP'
+
+AUDIT: lowest-similarity pairs ACCEPTED (look for false merges)
+  cos= 0.45  'ven' -> 'VEN'
+  cos= 0.45  'sea' -> 'Sea'
+  cos= 0.45  'ice' -> 'ICE'
+  cos= 0.45  'version' -> 'VERSION'
+  cos= 0.45  'spread' -> 'Spread'
+  cos= 0.45  'sys' -> 'Sys'
+  cos= 0.45  ' sle' -> ' Sle'
+  cos= 0.45  ' news' -> ' NEWS'
+  cos= 0.45  ' dish' -> ' Dish'
+  cos= 0.45  ' Ste' -> ' STE'
+AUDIT: highest-similarity suffix pairs REJECTED (look for missed merges)
+AUDIT: lowest rule-consistency pairs ACCEPTED
+  offset= 0.07  ' ssh' -> ' SSH'
+  offset= 0.07  ' tal' -> ' Tal'
+  offset= 0.07  ' targ' -> ' Targ'
+  offset= 0.07  ' vic' -> ' Vic'
+  offset= 0.07  'gre' -> 'Gre'
+  offset= 0.07  ' tar' -> ' Tar'
+  offset= 0.07  'sol' -> 'Sol'
+  offset= 0.08  'fab' -> 'Fab'
+wrote gpt2_case_matched_seed_1\map_case.npz  (7,224 variants, 4 tags incl. identity)

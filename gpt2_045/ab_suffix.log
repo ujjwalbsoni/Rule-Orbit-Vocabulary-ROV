@@ -1,0 +1,30 @@
+device cpu | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 42,702 bases + 135 tags (15.0% folded)
+
+== flat: 6.84M params (6.43M in embedding/head), d_ff=512
+  step   250  train 7.453  val 7.612 bits/token  (233s)
+  step   500  train 7.504  val 7.218 bits/token  (470s)
+
+== rov: 5.93M params (5.52M in embedding/head), d_ff=512
+  step   250  train 7.388  val 7.550 bits/token  (197s)
+  step   500  train 7.452  val 7.156 bits/token  (399s)
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov
+total params                       6.84M             5.93M
+embedding+head params              6.43M             5.52M
+train time (s)                       474               402
+all tokens (n=38,400)              7.472             7.409   bits/token
+variant tokens (n=1,812)            13.426            13.157   bits/token
+rare variants (n=464)             18.139            16.854   bits/token
+root tokens (n=36,588)             7.177             7.124   bits/token
+rare roots (n=1,718)              17.778            17.633   bits/token
+bits per byte                     1.9928            1.9760
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.0627 +/- 0.0077   better
+  rov          variant tokens   -0.2691 +/- 0.0810   better
+  rov          rare variants    -1.2854 +/- 0.2138   better
+  rov          root tokens      -0.0525 +/- 0.0070   better
+  rov          rare roots       -0.1449 +/- 0.0484   better

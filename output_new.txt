@@ -1,0 +1,341 @@
+Step 1 and 2:
+
+device cuda | text: 10.9 MB train, 0.80 MB held out | vocab 50,257: 6,092 mapped tokens -> 44,165 rows | plain/casemarker vocab 44,165
+
+######## flat
+loaded finished run from /kaggle/working/rov/bl12/res_flat.npz
+
+######## rov
+loaded finished run from /kaggle/working/rov/bl12/res_rov.npz
+
+######## prune
+loaded finished run from /kaggle/working/rov/bl12/res_prune.npz
+
+######## plain
+loaded finished run from /kaggle/working/rov/bl12/res_plain.npz
+
+######## casemarker
+loaded finished run from /kaggle/working/rov/bl12/res_casemarker.npz
+
+====================================================================================================
+RESULTS  (held-out text 0.80 MB; 2000 steps x 24 x 96 tokens; seed 0)
+====================================================================================================
+scheme       vocab size  emb+head   params bytes/token train MB seen  bits/token     bits/BYTE   vs flat
+flat             50,257    25.73M   51.00M        3.74          17.3       6.509   1.7005 ±0.0066          
+rov              50,257    22.62M   47.89M        3.74          17.3       6.479   1.6927 ±0.0066   -0.0078
+prune            44,165    22.61M   47.88M        3.63          16.7       6.316   1.6982 ±0.0065   -0.0023
+plain            44,165    22.61M   47.88M        4.03          18.6       6.823   1.6709 ±0.0068   -0.0296
+casemarker       44,165    22.61M   47.88M        3.72          17.2       6.261   1.6585 ±0.0061   -0.0419
+
+(± = bootstrap standard error over held-out windows, per scheme alone. The comparisons below are PAIRED over equal byte-range buckets of the same text, so their CIs are much tighter than these.)
+
+the comparisons that matter (negative = first is better):
+  rov         minus prune      -0.0055  95% CI [-0.0082, -0.0027] bits/byte   rov better   (same tokenizer, same number of embedding rows)   [100 paired buckets]
+  rov         minus flat       -0.0078  95% CI [-0.0091, -0.0064] bits/byte   rov better   (the folded model vs the unmodified vocabulary)   [100 paired buckets]
+  casemarker  minus plain      -0.0124  95% CI [-0.0173, -0.0080] bits/byte   casemarker better   (marker idea vs a freshly trained vocabulary of the same size)   [100 paired buckets]
+  prune       minus flat       -0.0023  95% CI [-0.0051, +0.0004] bits/byte   no clear difference   (what plain pruning costs)   [100 paired buckets]
+  rov         minus plain      +0.0218  95% CI [+0.0179, +0.0255] bits/byte   plain better   (folding vs a freshly trained vocabulary of ~the same size)   [100 paired buckets]
+  rov         minus casemarker +0.0342  95% CI [+0.0288, +0.0398] bits/byte   casemarker better   (folding vs the case-marker scheme)   [100 paired buckets]
+
+saved /kaggle/working/rov/bl12/summary.json
+
+-----------------------------------------------
+Step 3 Output:
+
+device cuda | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 44,165 bases + 3 tags (12.1% folded)
+
+== flat: /kaggle/working/rov/m_cap_s0.flat.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== flat: 51.00M params (25.73M in embedding/head), d_ff=2048
+  step   250  train 7.380  val 7.535 bits/token  (56s)
+  step   500  train 7.289  val 7.042 bits/token  (117s)
+  step   750  train 6.800  val 6.714 bits/token  (186s)
+  step  1000  train 6.540  val 6.499 bits/token  (254s)
+  step  1250  train 6.333  val 6.309 bits/token  (322s)
+  step  1500  train 6.412  val 6.193 bits/token  (390s)
+  step  1750  train 5.928  val 6.089 bits/token  (458s)
+  step  2000  train 6.151  val 6.046 bits/token  (527s)
+
+== rov: /kaggle/working/rov/m_cap_s0.rov.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "13b0163c96", "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "13b0163c96", "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== rov: 47.89M params (22.62M in embedding/head), d_ff=2048
+  step   250  train 7.342  val 7.554 bits/token  (67s)
+  step   500  train 7.265  val 7.029 bits/token  (135s)
+  step   750  train 6.777  val 6.689 bits/token  (202s)
+  step  1000  train 6.492  val 6.461 bits/token  (269s)
+  step  1250  train 6.296  val 6.283 bits/token  (337s)
+  step  1500  train 6.384  val 6.169 bits/token  (404s)
+  step  1750  train 5.915  val 6.060 bits/token  (472s)
+  step  2000  train 6.123  val 6.014 bits/token  (539s)
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov
+total params                      51.00M            47.89M
+embedding+head params             25.73M            22.62M
+train time (s)                       528               541
+all tokens (n=38,400)              6.268             6.236   bits/token
+variant tokens (n=1,082)             7.861             7.559   bits/token
+rare variants (n=198)             16.759            14.842   bits/token
+root tokens (n=37,318)             6.222             6.198   bits/token
+rare roots (n=1,984)              16.519            16.513   bits/token
+bits per byte                     1.6717            1.6633
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.0316 +/- 0.0100   better
+  rov          variant tokens   -0.3018 +/- 0.1069   better
+  rov          rare variants    -1.9174 +/- 0.4006   better
+  rov          root tokens      -0.0237 +/- 0.0098   better
+  rov          rare roots       -0.0061 +/- 0.0491   no clear difference
+device cuda | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 43,033 bases + 4 tags (14.4% folded)
+
+== flat: /kaggle/working/rov/m_case_s0.flat.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== flat: 51.00M params (25.73M in embedding/head), d_ff=2048
+  step   250  train 7.380  val 7.535 bits/token  (69s)
+  step   500  train 7.271  val 7.040 bits/token  (137s)
+  step   750  train 6.795  val 6.704 bits/token  (205s)
+  step  1000  train 6.528  val 6.486 bits/token  (273s)
+  step  1250  train 6.320  val 6.311 bits/token  (341s)
+  step  1500  train 6.406  val 6.201 bits/token  (409s)
+  step  1750  train 5.924  val 6.098 bits/token  (478s)
+  step  2000  train 6.164  val 6.055 bits/token  (546s)
+
+== rov: /kaggle/working/rov/m_case_s0.rov.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "6a5532fa93", "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "6a5532fa93", "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 0, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== rov: 47.31M params (22.04M in embedding/head), d_ff=2048
+  step   250  train 7.309  val 7.532 bits/token  (64s)
+  step   500  train 7.273  val 7.030 bits/token  (128s)
+  step   750  train 6.803  val 6.717 bits/token  (193s)
+  step  1000  train 6.507  val 6.473 bits/token  (257s)
+  step  1250  train 6.319  val 6.284 bits/token  (321s)
+  step  1500  train 6.385  val 6.172 bits/token  (386s)
+  step  1750  train 5.893  val 6.057 bits/token  (450s)
+  step  2000  train 6.113  val 6.004 bits/token  (514s)
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov
+total params                      51.00M            47.31M
+embedding+head params             25.73M            22.04M
+train time (s)                       548               516
+all tokens (n=38,400)              6.270             6.220   bits/token
+variant tokens (n=1,791)             8.171             7.982   bits/token
+rare variants (n=269)             16.864            15.346   bits/token
+root tokens (n=36,609)             6.177             6.134   bits/token
+rare roots (n=1,913)              16.537            16.471   bits/token
+bits per byte                     1.6723            1.6589
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.0502 +/- 0.0105   better
+  rov          variant tokens   -0.1889 +/- 0.0712   better
+  rov          rare variants    -1.5175 +/- 0.3152   better
+  rov          root tokens      -0.0434 +/- 0.0105   better
+  rov          rare roots       -0.0653 +/- 0.0551   better
+device cuda | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 44,165 bases + 3 tags (12.1% folded)
+
+== flat: /kaggle/working/rov/m_cap_s1.flat.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== flat: 51.00M params (25.73M in embedding/head), d_ff=2048
+  step   250  train 7.530  val 7.543 bits/token  (69s)
+  step   500  train 7.340  val 7.008 bits/token  (137s)
+  step   750  train 6.876  val 6.700 bits/token  (205s)
+  step  1000  train 6.596  val 6.491 bits/token  (273s)
+  step  1250  train 5.949  val 6.308 bits/token  (341s)
+  step  1500  train 6.117  val 6.183 bits/token  (409s)
+  step  1750  train 6.114  val 6.076 bits/token  (477s)
+  step  2000  train 6.005  val 6.019 bits/token  (546s)
+
+== rov: /kaggle/working/rov/m_cap_s1.rov.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "13b0163c96", "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "13b0163c96", "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== rov: 47.89M params (22.62M in embedding/head), d_ff=2048
+  step   250  train 7.538  val 7.550 bits/token  (67s)
+  step   500  train 7.343  val 6.989 bits/token  (134s)
+  step   750  train 6.847  val 6.702 bits/token  (202s)
+  step  1000  train 6.602  val 6.463 bits/token  (269s)
+  step  1250  train 5.930  val 6.310 bits/token  (336s)
+  step  1500  train 6.118  val 6.201 bits/token  (404s)
+  step  1750  train 6.139  val 6.085 bits/token  (471s)
+  step  2000  train 5.975  val 6.031 bits/token  (539s)
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov
+total params                      51.00M            47.89M
+embedding+head params             25.73M            22.62M
+train time (s)                       547               540
+all tokens (n=38,400)              6.253             6.248   bits/token
+variant tokens (n=1,082)             7.950             7.753   bits/token
+rare variants (n=198)             16.777            15.077   bits/token
+root tokens (n=37,318)             6.204             6.205   bits/token
+rare roots (n=1,984)              16.515            16.499   bits/token
+bits per byte                     1.6677            1.6665
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.0047 +/- 0.0101   no clear difference
+  rov          variant tokens   -0.1977 +/- 0.1011   better
+  rov          rare variants    -1.6998 +/- 0.3727   better
+  rov          root tokens      +0.0009 +/- 0.0099   no clear difference
+  rov          rare roots       -0.0165 +/- 0.0515   no clear difference
+device cuda | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 43,033 bases + 4 tags (14.4% folded)
+
+== flat: /kaggle/working/rov/m_case_s1.flat.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "flat", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== flat: 51.00M params (25.73M in embedding/head), d_ff=2048
+  step   250  train 7.530  val 7.543 bits/token  (69s)
+  step   500  train 7.327  val 7.010 bits/token  (137s)
+  step   750  train 6.905  val 6.707 bits/token  (204s)
+  step  1000  train 6.598  val 6.473 bits/token  (272s)
+  step  1250  train 5.942  val 6.323 bits/token  (341s)
+  step  1500  train 6.110  val 6.187 bits/token  (409s)
+  step  1750  train 6.144  val 6.084 bits/token  (477s)
+  step  2000  train 6.027  val 6.023 bits/token  (546s)
+
+== rov: /kaggle/working/rov/m_case_s1.rov.npz was made with DIFFERENT settings -> retraining
+   old: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "6a5532fa93", "max_tokens": 0, "max_val_blocks": 2000, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+   new: {"batch": 24, "ctx": 96, "d_ff": 2048, "d_model": 512, "data_seed": 0, "lr": 0.001, "map": "6a5532fa93", "max_tokens": 0, "max_val_blocks": 400, "n_head": 8, "n_layer": 8, "run": "rov", "seed": 1, "steps": 2000, "val_frac": 0.05, "warmup": 200}
+
+== rov: 47.31M params (22.04M in embedding/head), d_ff=2048
+  step   250  train 7.503  val 7.566 bits/token  (64s)
+  step   500  train 7.334  val 6.995 bits/token  (128s)
+  step   750  train 6.875  val 6.701 bits/token  (192s)
+  step  1000  train 6.580  val 6.472 bits/token  (256s)
+  step  1250  train 5.957  val 6.321 bits/token  (320s)
+  step  1500  train 6.109  val 6.187 bits/token  (384s)
+  step  1750  train 6.120  val 6.096 bits/token  (449s)
+  step  2000  train 5.981  val 6.036 bits/token  (513s)
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov
+total params                      51.00M            47.31M
+embedding+head params             25.73M            22.04M
+train time (s)                       547               514
+all tokens (n=38,400)              6.265             6.244   bits/token
+variant tokens (n=1,791)             8.234             8.028   bits/token
+rare variants (n=269)             16.706            15.354   bits/token
+root tokens (n=36,609)             6.169             6.157   bits/token
+rare roots (n=1,913)              16.531            16.397   bits/token
+bits per byte                     1.6710            1.6654
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.0211 +/- 0.0102   better
+  rov          variant tokens   -0.2058 +/- 0.0677   better
+  rov          rare variants    -1.3512 +/- 0.2930   better
+  rov          root tokens      -0.0120 +/- 0.0101   better
+  rov          rare roots       -0.1340 +/- 0.0538   better
+difference vs flat, bits/token, model 'rov' (negative = folded model is better)
+
+group            seeds            all tokens        variant tokens         rare variants           root tokens            rare roots
+u_cap                3        -0.020 ± 0.014        -0.280 ± 0.074        -1.813 ± 0.109        -0.013 ± 0.013        -0.003 ± 0.015
+u_case               3        -0.033 ± 0.015        -0.207 ± 0.019        -1.421 ± 0.086        -0.024 ± 0.017        -0.065 ± 0.070
+
+  mean ± standard deviation across seeds; with fewer than 4 seeds the spread itself is very uncertain.
+
+per-seed values (all tokens | rare variants | rare roots):
+  u_cap          seed 0:  -0.032   -1.917   -0.006    (validation-noise CI on all tokens: ±0.010)
+  u_cap          seed 1:  -0.005   -1.700   -0.017    (validation-noise CI on all tokens: ±0.010)
+  u_cap          seed 2:  -0.025   -1.821   +0.013    (validation-noise CI on all tokens: ±0.005)
+  u_case         seed 0:  -0.050   -1.518   -0.065    (validation-noise CI on all tokens: ±0.011)
+  u_case         seed 1:  -0.021   -1.351   -0.134    (validation-noise CI on all tokens: ±0.010)
+  u_case         seed 2:  -0.027   -1.394   +0.005    (validation-noise CI on all tokens: ±0.005)
+
+paired comparison u_cap minus u_case, seed by seed (positive = u_cap gains LESS than u_case):
+  all tokens     mean +0.013  SE 0.005  over seeds [0, 1, 2]   -> difference exceeds 2 SE
+  rare variants  mean -0.392  SE 0.023  over seeds [0, 1, 2]   -> difference exceeds 2 SE   [NOT like-for-like: the two families fold different tokens]
+  rare roots     mean +0.062  SE 0.032  over seeds [0, 1, 2]   -> within noise: treat as a tie   [NOT like-for-like: the two families fold different tokens]
+  (this treats the models, and not only the seeds, as fixed: it says nothing about other vocabularies, data or scales)
+
+---------------------------------
+
+Step 4 Output:
+
+device cuda | text: 10.9 MB train, 0.80 MB held out | vocab 50,257: 6,092 mapped tokens -> 44,165 rows | plain/casemarker vocab 44,165
+
+######## flat
+
+== flat: 51.00M params (25.73M in embedding/head), d_ff=2048
+  step   500  train 7.090  val 7.379 bits/token  (134s)
+  step  1000  train 6.348  val 6.943 bits/token  (270s)
+  step  1500  train 6.228  val 6.608 bits/token  (406s)
+  step  2000  train 6.044  val 6.480 bits/token  (542s)
+  step  2300  train 5.828  val 6.426 bits/token  (624s)
+
+######## rov
+
+== rov: 47.89M params (22.62M in embedding/head), d_ff=2048
+  step   500  train 7.080  val 7.400 bits/token  (134s)
+  step  1000  train 6.355  val 6.914 bits/token  (269s)
+  step  1500  train 6.208  val 6.612 bits/token  (403s)
+  step  2000  train 6.027  val 6.466 bits/token  (537s)
+  step  2300  train 5.788  val 6.422 bits/token  (618s)
+
+######## prune
+
+== flat: 47.88M params (22.61M in embedding/head), d_ff=2048
+  step   500  train 6.880  val 7.329 bits/token  (133s)
+  step  1000  train 6.304  val 6.898 bits/token  (266s)
+  step  1500  train 6.308  val 6.515 bits/token  (400s)
+  step  2000  train 5.553  val 6.378 bits/token  (533s)
+  step  2300  train 5.438  val 6.363 bits/token  (613s)
+
+######## plain
+
+== flat: 47.88M params (22.61M in embedding/head), d_ff=2048
+  step   500  train 6.985  val 7.439 bits/token  (133s)
+  step  1000  train 6.573  val 7.037 bits/token  (266s)
+  step  1500  train 6.215  val 6.782 bits/token  (400s)
+  step  2000  train 6.131  val 6.649 bits/token  (534s)
+  step  2300  train 5.940  val 6.610 bits/token  (614s)
+
+######## casemarker
+   case-marker round trip on 300 held-out lines: OK
+
+== flat: 47.88M params (22.61M in embedding/head), d_ff=2048
+  step   500  train 6.396  val 6.920 bits/token  (134s)
+  step  1000  train 6.006  val 6.645 bits/token  (267s)
+  step  1500  train 6.119  val 6.385 bits/token  (400s)
+  step  2000  train 5.454  val 6.286 bits/token  (534s)
+  step  2300  train 5.389  val 6.255 bits/token  (614s)
+
+====================================================================================================
+RESULTS  (held-out text 0.80 MB; 2300 steps x 24 x 96 tokens; seed 0)
+====================================================================================================
+scheme       vocab size  emb+head   params bytes/token train MB seen  bits/token     bits/BYTE   vs flat
+flat             50,257    25.73M   51.00M        3.74          19.8       6.421   1.6775 ±0.0067          
+rov              50,257    22.62M   47.89M        3.74          19.8       6.398   1.6716 ±0.0067   -0.0059
+prune            44,165    22.61M   47.88M        3.63          19.2       6.249   1.6802 ±0.0066   +0.0027
+plain            44,165    22.61M   47.88M        4.03          21.4       6.769   1.6576 ±0.0068   -0.0199
+casemarker       44,165    22.61M   47.88M        3.72          19.7       6.206   1.6441 ±0.0062   -0.0334
+
+(± = bootstrap standard error over held-out windows, per scheme alone. The comparisons below are PAIRED over equal byte-range buckets of the same text, so their CIs are much tighter than these.)
+
+the comparisons that matter (negative = first is better):
+  rov         minus prune      -0.0086  95% CI [-0.0112, -0.0061] bits/byte   rov better   (same tokenizer, same number of embedding rows)   [100 paired buckets]
+  rov         minus flat       -0.0059  95% CI [-0.0074, -0.0044] bits/byte   rov better   (the folded model vs the unmodified vocabulary)   [100 paired buckets]
+  casemarker  minus plain      -0.0135  95% CI [-0.0176, -0.0098] bits/byte   casemarker better   (marker idea vs a freshly trained vocabulary of the same size)   [100 paired buckets]
+  prune       minus flat       +0.0027  95% CI [-0.0001, +0.0053] bits/byte   no clear difference   (what plain pruning costs)   [100 paired buckets]
+  rov         minus plain      +0.0139  95% CI [+0.0099, +0.0178] bits/byte   plain better   (folding vs a freshly trained vocabulary of ~the same size)   [100 paired buckets]
+  rov         minus casemarker +0.0274  95% CI [+0.0228, +0.0322] bits/byte   casemarker better   (folding vs the case-marker scheme)   [100 paired buckets]
+
+saved /kaggle/working/rov/bl12_lvl/summary.json
+
+

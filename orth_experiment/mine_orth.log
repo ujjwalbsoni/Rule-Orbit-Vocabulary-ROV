@@ -1,0 +1,75 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+vocab entries: 50,257   token style: bytelevel
+============================================================================
+RULE-ORBIT VOCABULARY REPORT
+============================================================================
+vocab size                         : 50,257
+decomposable word-like tokens      : 46,812
+candidate pairs mined              : 151,463
+  after rule-support filter (>= 8): 25,091
+  embedding gate (gpt2): cos >= 0.45 (set by --emb-theta), offset-consistency >= 0.07 unless cos >= 0.23; judged 25,091, consistency testable for 24,377
+  pairs accepted by gates          : 16,428   (unjudged: 0 -> reject)
+base tokens (roots)                : 39,640
+variants folded into an orbit      : 10,617  (21.1% of vocab)
+  space/case-only rules            : 10,617 (21.1% of vocab)   <- riskiest family
+  suffix-edit rules                : 0 (0.0% of vocab)
+distinct rule tags                 : 11 composite, or 8 factored (3 space + 4 case + 1 suffix-edit)
+
+embedding rows x d_model=4096 (per table: input embedding or output head)
+  flat vocab                       : 205.9 M params
+  ROV composite tags               : 162.4 M (21.1% smaller)
+  ROV factored tags                : 162.4 M (21.1% smaller)
+lossless check                     : every one of the 10,617 variants rebuilds from (base, tag) exactly; text round-trip (50,473 tokens, same length): OK
+
+TOP RULES   pairs  mean-cos  mean-offset  example base -> variant
+   4,698   0.60      0.31     [Cap]            ' the'->' The', ' this'->' This', ' and'->' And'
+   3,165   0.59      0.36     [-space]         ' and'->'and', ' int'->'int', ' man'->'man'
+   1,350   0.53      0.47     [-space|Cap]     ' the'->'The', ' this'->'This', ' but'->'But'
+     620   0.57      0.20     [lower]          ' Mar'->' mar', ' House'->' house', ' However'->' however'
+     438   0.51      0.42     [UPPER]          'ing'->'ING', 'ion'->'ION', ' the'->' THE'
+     176   0.54      0.22     [+space]         'all'->' all', 'out'->' out', 'one'->' one'
+     102   0.50      0.31     [-space|lower]   ' Cont'->'cont', ' Spe'->'spe', ' Ste'->'ste'
+      42   0.49      0.31     [+space|Cap]     'all'->' All', 'red'->' Red', 'per'->' Per'
+      19   0.51      0.33     [+space|UPPER]   'pdf'->' PDF', 'json'->' JSON', 'php'->' PHP'
+       7   0.52      0.26     [+space|lower]   'Meanwhile'->' meanwhile', 'Hey'->' hey', 'Hello'->' hello'
+
+BIGGEST ORBITS
+  'day': [+space]' day', [+space|Cap]' Day', [Cap]'Day', [+space|UPPER]' DAY', [UPPER]'DAY'
+  ' the': [Cap]' The', [-space|Cap]'The', [-space]'the', [UPPER]' THE'
+  ' and': [-space]'and', [Cap]' And', [-space|Cap]'And', [UPPER]' AND'
+  'all': [+space]' all', [+space|Cap]' All', [Cap]'All', [UPPER]'ALL'
+  'out': [+space]' out', [+space|Cap]' Out', [Cap]'Out', [UPPER]'OUT'
+  ' this': [Cap]' This', [-space|Cap]'This', [-space]'this', [UPPER]' THIS'
+  ' other': [-space]'other', [Cap]' Other', [-space|Cap]'Other', [UPPER]' OTHER'
+  'end': [+space]' end', [+space|Cap]' End', [UPPER]'END', [Cap]'End'
+  ' you': [Cap]' You', [-space|Cap]'You', [-space]'you', [UPPER]' YOU'
+  ' new': [Cap]' New', [-space]'new', [-space|Cap]'New', [UPPER]' NEW'
+  ' min': [-space]'min', [Cap]' Min', [-space|Cap]'Min', [UPPER]' MIN'
+  ' any': [-space]'any', [Cap]' Any', [-space|Cap]'Any', [UPPER]' ANY'
+  ' for': [Cap]' For', [-space]'for', [-space|Cap]'For', [UPPER]' FOR'
+  ' they': [Cap]' They', [-space|Cap]'They', [-space]'they', [UPPER]' THEY'
+  'form': [+space]' form', [+space|Cap]' Form', [Cap]'Form', [UPPER]'FORM'
+
+AUDIT: lowest-similarity pairs ACCEPTED (look for false merges)
+  cos= 0.45  'ven' -> 'VEN'
+  cos= 0.45  'day' -> ' DAY'
+  cos= 0.45  ' force' -> 'Force'
+  cos= 0.45  'sea' -> 'Sea'
+  cos= 0.45  ' fill' -> 'fill'
+  cos= 0.45  'ice' -> 'ICE'
+  cos= 0.45  'piracy' -> ' piracy'
+  cos= 0.45  ' invest' -> 'invest'
+  cos= 0.45  'version' -> 'VERSION'
+  cos= 0.45  ' col' -> 'col'
+AUDIT: highest-similarity suffix pairs REJECTED (look for missed merges)
+AUDIT: lowest rule-consistency pairs ACCEPTED
+  offset=-0.02  ' LEGO' -> ' Lego'
+  offset=-0.02  ' gui' -> ' GUI'
+  offset= 0.00  ' ASUS' -> ' Asus'
+  offset= 0.01  ' ben' -> ' Ben'
+  offset= 0.03  ' NVIDIA' -> ' Nvidia'
+  offset= 0.03  ' gren' -> ' Gren'
+  offset= 0.04  ' UID' -> 'UID'
+  offset= 0.04  ' coord' -> 'coord'
+warning: overwriting existing orth_experiment\map_orth.npz
+wrote orth_experiment\map_orth.npz  (10,617 variants, 11 tags incl. identity)

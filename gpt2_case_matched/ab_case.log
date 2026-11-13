@@ -1,0 +1,39 @@
+device cpu | train blocks 31,752 x 96 tokens | val blocks 400 | vocab 50,257 -> 43,033 bases + 4 tags (14.4% folded)
+
+== flat: 6.84M params (6.43M in embedding/head), d_ff=512
+  step   250  train 7.453  val 7.612 bits/token  (281s)
+  step   500  train 7.504  val 7.218 bits/token  (561s)
+
+== rov: 5.92M params (5.51M in embedding/head), d_ff=512
+  step   250  train 7.359  val 7.573 bits/token  (224s)
+  step   500  train 7.447  val 7.173 bits/token  (448s)
+
+== rov-matched: 6.84M params (5.51M in embedding/head), d_ff=2312
+  step   250  train 7.375  val 7.582 bits/token  (246s)
+  step   500  train 7.498  val 7.196 bits/token  (527s)
+
+==============================================================================
+RESULTS  (38,400 validation tokens; bytes/token = 3.75; rare = <30 train occurrences)
+==============================================================================
+                                    flat               rov       rov-matched
+total params                       6.84M             5.92M             6.84M
+embedding+head params              6.43M             5.51M             5.51M
+train time (s)                       567               452               533
+all tokens (n=38,400)              7.472             7.414             7.443   bits/token
+variant tokens (n=1,791)             9.633             9.527             9.556   bits/token
+rare variants (n=269)             18.454            16.646            16.601   bits/token
+root tokens (n=36,609)             7.366             7.310             7.340   bits/token
+rare roots (n=1,913)              17.771            17.707            17.696   bits/token
+bits per byte                     1.9928            1.9772            1.9852
+
+paired difference vs flat, bits/token (negative = better than flat), 95% CI:
+  rov          all tokens       -0.0581 +/- 0.0080   better
+  rov          variant tokens   -0.1059 +/- 0.0848   better
+  rov          rare variants    -1.8072 +/- 0.3626   better
+  rov          root tokens      -0.0558 +/- 0.0073   better
+  rov          rare roots       -0.0638 +/- 0.0484   better
+  rov-matched  all tokens       -0.0283 +/- 0.0084   better
+  rov-matched  variant tokens   -0.0769 +/- 0.0869   no clear difference
+  rov-matched  rare variants    -1.8529 +/- 0.3631   better
+  rov-matched  root tokens      -0.0259 +/- 0.0077   better
+  rov-matched  rare roots       -0.0753 +/- 0.0498   better

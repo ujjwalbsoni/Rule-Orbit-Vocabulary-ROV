@@ -1,0 +1,36 @@
+device cuda | text: 10.9 MB train, 0.80 MB held out | vocab 50,257: 6,092 mapped tokens -> 44,165 rows | plain/casemarker vocab 44,165
+
+######## flat
+loaded finished run from /content/drive/MyDrive/rov/bl12_s1/res_flat.npz
+
+######## rov
+loaded finished run from /content/drive/MyDrive/rov/bl12_s1/res_rov.npz
+
+######## prune
+loaded finished run from /content/drive/MyDrive/rov/bl12_s1/res_prune.npz
+
+######## plain
+loaded finished run from /content/drive/MyDrive/rov/bl12_s1/res_plain.npz
+
+######## casemarker
+loaded finished run from /content/drive/MyDrive/rov/bl12_s1/res_casemarker.npz
+
+====================================================================================================
+RESULTS  (held-out text 0.80 MB; 2000 steps x 24 x 96 tokens; seed 1)
+====================================================================================================
+scheme       vocab size  emb+head   params bytes/token train MB seen  bits/token     bits/BYTE   vs flat
+flat             50,257    25.73M   51.00M        3.74          17.3       6.511   1.7010 ±0.0066          
+rov              50,257    22.62M   47.89M        3.74          17.3       6.502   1.6986 ±0.0067   -0.0024
+prune            44,165    22.61M   47.88M        3.63          16.7       6.320   1.6995 ±0.0066   -0.0015
+plain            44,165    22.61M   47.88M        4.03          18.6       6.832   1.6730 ±0.0067   -0.0280
+casemarker       44,165    22.61M   47.88M        3.72          17.2       6.244   1.6541 ±0.0061   -0.0469
+
+(± = bootstrap standard error over held-out windows. Differences between two schemes use these as unpaired errors, which is conservative: the schemes are scored on the same text.)
+
+the comparisons that matter (negative = first is better):
+  rov         minus prune      -0.0009 ± 0.0184 bits/byte   no clear difference   (same tokenizer, same number of embedding rows)
+  rov         minus flat       -0.0024 ± 0.0184 bits/byte   no clear difference   (the folded model vs the unmodified vocabulary)
+  casemarker  minus plain      -0.0189 ± 0.0178 bits/byte   casemarker better   (marker idea vs a freshly trained vocabulary of the same size)
+  prune       minus flat       -0.0015 ± 0.0183 bits/byte   no clear difference   (what plain pruning costs)
+
+saved /content/drive/MyDrive/rov/bl12_s1/summary.json
